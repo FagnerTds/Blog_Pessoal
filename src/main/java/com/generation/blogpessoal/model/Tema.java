@@ -15,20 +15,20 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tb_temas")
+@Table(name= "tb_temas")
 public class Tema {
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message = "O atributo descrição é obrigatório")
+	@NotNull(message="o atributo descrição é obrigatório!")
 	private String descricao;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tema", cascade = CascadeType.REMOVE)
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "tema", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("tema")
 	private List<Postagem> postagem;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -45,14 +45,17 @@ public class Tema {
 		this.descricao = descricao;
 	}
 
+	
 	public List<Postagem> getPostagem() {
 		return postagem;
 	}
 
+	
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
-
+	
 	
 	
 }
+

@@ -21,14 +21,14 @@ public class Postagem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
-	@NotBlank(message = "O atributo titulo é obrigatório!")
-	@Size (min =5, max = 100, message = "O atributo título deve conter no mínimo 05 e no maximo 100 caracteres")
+	@NotBlank(message = "Esse campo não pode ficar vazio!")
+	@Size(min=5,max=100, message = "Minimo 5, maximo 100 por favor!!")
 	private String titulo;
 	
-	@NotBlank(message = "O atributo titulo é obrigatório!")
-	@Size (min =5, max = 1000, message = "O atributo título deve conter no mínimo 05 e no maximo 1000 caracteres")
+	@NotBlank(message = "Esse campo não pode ficar vazio!")
+	@Size(min=10,max=1000, message = "Minimo 5, maximo 1000 por favor!!")
 	private String texto;
 	
 	@UpdateTimestamp
@@ -41,21 +41,20 @@ public class Postagem {
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Usuario usuario;
-	
 
-	public Tema getTema() {
-		return tema;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setTema(Tema tema) {
-		this.tema = tema;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -83,12 +82,12 @@ public class Postagem {
 		this.data = data;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Tema getTema() {
+		return tema;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setTema(Tema tema) {
+		this.tema = tema;
 	}
 	
 	

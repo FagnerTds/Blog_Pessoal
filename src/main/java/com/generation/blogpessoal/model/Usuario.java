@@ -17,30 +17,42 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name="tb_usuario")
+@Table(name="tb_usuarios")
 public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank(message="O atributo nome deve ser preenchido")
+	@NotBlank(message = "O atributo nome é obrigatório")
 	private String nome;
 	
-	@NotBlank(message="O atributo usuário deve ser preenchido")
-	@Email(message= "O atributo uduárioi deve ser preenchido com um Email")
+	@NotBlank(message = "O atributo usuario é obrigatório")
+	@Email(message = "O atributo usuario tem que receber um email valido")
 	private String usuario;
 	
-	@NotBlank(message="O atributo usuário deve ser preenchido")
-	@Size(min=8)
+	@NotBlank(message = "O atributo senha é obrigatório")
+	@Size(min=8,message="A senha tem que ter no minimo 8 caracteres")
 	private String senha;
 	
-	@Size(max = 5000, message = "O link da foto não pode ser maior do que 5000 caracteres")
+	@Size(max=4000,message="O link da foto inserida não pode passar dos 4000 caracteres")
 	private String foto;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="usuario", cascade=CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="usuario",cascade=CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
+	
+	public Usuario(Long id, String nome, String usuario, String senha, String foto) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+	}
+	
+	public Usuario() {
+		
+	}
 
 	public Long getId() {
 		return id;
@@ -89,7 +101,6 @@ public class Usuario {
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
-	
 	
 	
 

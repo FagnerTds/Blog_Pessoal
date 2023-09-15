@@ -17,41 +17,42 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {
-	public static final  String SECRET ="17ef0e07f4b961a967bd54cabfd7b1f650383a705bfc94819e5772dfb346543c";
+
+	public static final String SECRET = "dea0c30c8eeeff3e0f9a6457be5de6d02f9cda233ada250a66e1af722cadb454";
 
 	private Key getSignKey() {
-		byte [] KeyBytes = Decoders.BASE64.decode(SECRET);
-		return Keys.hmacShaKeyFor(KeyBytes);
+		byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+		return Keys.hmacShaKeyFor(keyBytes);
 	}
-	
-	private Claims extractAllClaims (String token) {
+
+	private Claims extractAllClaims(String token) {
 		return Jwts.parserBuilder()
 				.setSigningKey(getSignKey()).build()
-				.parseClaimsJwt(token).getBody();		
+				.parseClaimsJws(token).getBody();
 	}
-	
+
 	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
 		final Claims claims = extractAllClaims(token);
 		return claimsResolver.apply(claims);
 	}
-	
+
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
-	
+
 	public Date extractExpiration(String token) {
 		return extractClaim(token, Claims::getExpiration);
 	}
-	
+
 	private Boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
 	}
-	
+
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = extractUsername(token);
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
-	
+
 	private String createToken(Map<String, Object> claims, String userName) {
 		return Jwts.builder()
 					.setClaims(claims)
@@ -65,4 +66,5 @@ public class JwtService {
 		Map<String, Object> claims = new HashMap<>();
 		return createToken(claims, userName);
 	}
+
 }
